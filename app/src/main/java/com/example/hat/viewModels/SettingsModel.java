@@ -1,19 +1,38 @@
 package com.example.hat.viewModels;
 
+import com.example.hat.models.Group;
+
+import java.util.ArrayList;
+import java.util.Stack;
+
 public class SettingsModel {
     private int countGroups;
     private int countWords;
     private int time;
-    private boolean repeat;
+    private boolean pass;
+    private boolean rowing;
+    private ArrayList<Group> groups;
+    private Stack<String> words;
+
 
     public SettingsModel() {
     }
 
-    public SettingsModel(int countGroups, int countWords, int time, boolean repeat) {
-        this.countGroups = countGroups;
-        this.countWords = countWords;
-        this.time = time;
-        this.repeat = repeat;
+
+    public Stack<String> getWords() {
+        return words;
+    }
+
+    public void setWords(Stack<String> words) {
+        this.words = words;
+    }
+
+    public ArrayList<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(ArrayList<Group> groups) {
+        this.groups = groups;
     }
 
     public int getCountGroups() {
@@ -40,11 +59,19 @@ public class SettingsModel {
         this.time = time;
     }
 
-    public boolean isRepeat() {
-        return repeat;
+    public boolean isPass() {
+        return pass;
     }
 
-    public void setRepeat(boolean repeat) {
-        this.repeat = repeat;
+    public void setPass(boolean pass) {
+        this.pass = pass;
+    }
+
+    public boolean isRowing() {
+        return rowing;
+    }
+
+    public void setRowing(boolean rowing) {
+        this.rowing = rowing;
     }
 }

@@ -5,22 +5,34 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.example.hat.fragments.FragmentGame;
-import com.example.hat.fragments.FragmentSettings;
+import com.example.hat.fragments.FragmentGroupsSettings;
+import com.example.hat.fragments.FragmentResult;
+import com.example.hat.fragments.FragmentTimeSettings;
+import com.example.hat.fragments.FragmentWordsSettings;
 import com.example.hat.interfaces.FragmentGameListener;
 import com.example.hat.interfaces.FragmentSettingsListener;
-import com.example.hat.viewModels.SettingsModel;
+import com.example.hat.models.Group;
 
 public class ActivityGame extends AppCompatActivity implements FragmentSettingsListener, FragmentGameListener {
 
     private FragmentGame fragmentGame;
-    private FragmentSettings fragmentSettings;
+    private FragmentGroupsSettings fragmentGroupsSettings;
+    private FragmentWordsSettings fragmentWordsSettings;
+    private FragmentTimeSettings fragmentTimeSettings;
+    private FragmentResult fragmentResult;
 
     private final String SIMPLE_FRAGMENT_GAME_TAG = "SIMPLE_FRAGMENT_GAME_TAG";
-    private final String SIMPLE_FRAGMENT_SETTINGS_TAG = "SIMPLE_FRAGMENT_SETTINGS_TAG";
-    private String current_fragment = SIMPLE_FRAGMENT_SETTINGS_TAG;
-    public SettingsModel settingsModel;
+    private final String SIMPLE_FRAGMENT_GROUP_SETTINGS_TAG = "SIMPLE_FRAGMENT_GROUP_SETTINGS_TAG";
+    private final String SIMPLE_FRAGMENT_WORDS_SETTINGS_TAG = "SIMPLE_FRAGMENT_WORDS_SETTINGS_TAG";
+    private final String SIMPLE_FRAGMENT_TIME_SETTINGS_TAG = "SIMPLE_FRAGMENT_TIME_SETTINGS_TAG";
+    private final String SIMPLE_FRAGMENT_RESULT_TAG = "SIMPLE_FRAGMENT_RESULT_TAG";
+    private String current_fragment = SIMPLE_FRAGMENT_GROUP_SETTINGS_TAG;
+
+    private int currentSettingStep = 0;
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -37,49 +49,90 @@ public class ActivityGame extends AppCompatActivity implements FragmentSettingsL
             // look up the instance that already exists by tag
             fragmentGame = (FragmentGame)
                     getSupportFragmentManager().findFragmentByTag(SIMPLE_FRAGMENT_GAME_TAG);
-            fragmentSettings = (FragmentSettings)
-                    getSupportFragmentManager().findFragmentByTag(SIMPLE_FRAGMENT_SETTINGS_TAG);
+            fragmentGroupsSettings = (FragmentGroupsSettings)
+                    getSupportFragmentManager().findFragmentByTag(SIMPLE_FRAGMENT_GROUP_SETTINGS_TAG);
+            fragmentWordsSettings = (FragmentWordsSettings)
+                    getSupportFragmentManager().findFragmentByTag(SIMPLE_FRAGMENT_WORDS_SETTINGS_TAG);
+            fragmentTimeSettings = (FragmentTimeSettings)
+                    getSupportFragmentManager().findFragmentByTag(SIMPLE_FRAGMENT_TIME_SETTINGS_TAG);
+            fragmentResult = (FragmentResult)
+                    getSupportFragmentManager().findFragmentByTag(SIMPLE_FRAGMENT_RESULT_TAG);
 
             current_fragment = savedInstanceState.getString("current_fragment");
 
         }
-        // only create fragment if they haven't been instantiated already
+
+
         if (fragmentGame == null)
             fragmentGame = new FragmentGame();
-        if(fragmentSettings == null)
-            fragmentSettings = new FragmentSettings();
+        if(fragmentGroupsSettings == null)
+            fragmentGroupsSettings = new FragmentGroupsSettings();
+        if(fragmentWordsSettings == null)
+            fragmentWordsSettings = new FragmentWordsSettings();
+        if(fragmentTimeSettings == null)
+            fragmentTimeSettings = new FragmentTimeSettings();
 
-        fragmentSettings.setOnClickAdapterListener(this);
 
+        fragmentGame.setFragmentGameListener(this);
+        fragmentGroupsSettings.setOnClickAdapterListener(this);
+        fragmentWordsSettings.setOnClickAdapterListener(this);
+        fragmentTimeSettings.setOnClickAdapterListener(this);
+
+        transaction();
+    }
+
+    void transaction(){
         FragmentManager fragmentManager = getSupportFragmentManager();
-
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if(current_fragment.equals(SIMPLE_FRAGMENT_GAME_TAG)){
             fragmentTransaction.replace(R.id.fragment, fragmentGame, SIMPLE_FRAGMENT_GAME_TAG);
-        }else if(current_fragment.equals(SIMPLE_FRAGMENT_SETTINGS_TAG)){
-            fragmentTransaction.replace(R.id.fragment, fragmentSettings, SIMPLE_FRAGMENT_SETTINGS_TAG);
+        } else if(current_fragment.equals(SIMPLE_FRAGMENT_GROUP_SETTINGS_TAG)){
+            fragmentTransaction.replace(R.id.fragment, fragmentGroupsSettings, SIMPLE_FRAGMENT_GROUP_SETTINGS_TAG);
+        } else if(current_fragment.equals(SIMPLE_FRAGMENT_WORDS_SETTINGS_TAG)){
+            fragmentTransaction.replace(R.id.fragment, fragmentWordsSettings, SIMPLE_FRAGMENT_WORDS_SETTINGS_TAG);
+        } else if(current_fragment.equals(SIMPLE_FRAGMENT_TIME_SETTINGS_TAG)){
+            fragmentTransaction.replace(R.id.fragment, fragmentTimeSettings, SIMPLE_FRAGMENT_TIME_SETTINGS_TAG);
+        } else if(current_fragment.equals(SIMPLE_FRAGMENT_RESULT_TAG)){
+            fragmentTransaction.replace(R.id.fragment, fragmentResult, SIMPLE_FRAGMENT_RESULT_TAG);
         }
         fragmentTransaction.commit();
-
     }
 
     @Override
-    public void start(SettingsModel model) {
-        settingsModel = model;
+    public void start() {
+        current_fragment = SIMPLE_FRAGMENT_GAME_TAG;
+        transaction();
+    }
+
+
+    @Override
+    public void next() {
+        switch (currentSettingStep){
+            case 0:{
+                current_fragment = SIMPLE_FRAGMENT_WORDS_SETTINGS_TAG;
+                break;
+            }
+            case 1:{
+                current_fragment = SIMPLE_FRAGMENT_TIME_SETTINGS_TAG;
+                break;
+            }
+            case 2:{
+                current_fragment = SIMPLE_FRAGMENT_GAME_TAG;
+                break;
+            }
+        }
+        currentSettingStep++;
+        transaction();
+    }
+
+    @Override
+    public void result() {
+        fragmentResult = new FragmentResult();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment, fragmentGame, SIMPLE_FRAGMENT_GAME_TAG);
+        fragmentTransaction.replace(R.id.fragment, fragmentResult, SIMPLE_FRAGMENT_RESULT_TAG);
         fragmentTransaction.commit();
-        current_fragment = SIMPLE_FRAGMENT_GAME_TAG;
     }
 
-    @Override
-    public void pass() {
 
-    }
-
-    @Override
-    public void guess() {
-
-    }
 }

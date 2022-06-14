@@ -12,8 +12,6 @@
         android:gravity="center"
         android:orientation="vertical">
 
-
-
         <TextView
             android:id="@+id/tvNameGame"
             android:layout_width="match_parent"

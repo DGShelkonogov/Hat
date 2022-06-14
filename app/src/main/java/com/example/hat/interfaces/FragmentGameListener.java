@@ -1,6 +1,7 @@
 package com.example.hat.interfaces;
 
+import android.widget.TextView;
+
 public interface FragmentGameListener {
-    void pass();
-    void guess();
+    void result();
 }
