@@ -7,21 +7,24 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.hat.fragments.FragmentDictionary;
 import com.example.hat.fragments.FragmentGame;
 import com.example.hat.fragments.FragmentGroupsSettings;
 import com.example.hat.fragments.FragmentResult;
 import com.example.hat.fragments.FragmentTimeSettings;
 import com.example.hat.fragments.FragmentWordsSettings;
+import com.example.hat.interfaces.FragmentDictionaryListener;
 import com.example.hat.interfaces.FragmentGameListener;
 import com.example.hat.interfaces.FragmentSettingsListener;
 import com.example.hat.models.Group;
 
-public class ActivityGame extends AppCompatActivity implements FragmentSettingsListener, FragmentGameListener {
+public class ActivityGame extends AppCompatActivity implements FragmentSettingsListener, FragmentGameListener, FragmentDictionaryListener {
 
     private FragmentGame fragmentGame;
     private FragmentGroupsSettings fragmentGroupsSettings;
     private FragmentWordsSettings fragmentWordsSettings;
     private FragmentTimeSettings fragmentTimeSettings;
+    private FragmentDictionary fragmentDictionary;
     private FragmentResult fragmentResult;
 
     private final String SIMPLE_FRAGMENT_GAME_TAG = "SIMPLE_FRAGMENT_GAME_TAG";
@@ -29,6 +32,7 @@ public class ActivityGame extends AppCompatActivity implements FragmentSettingsL
     private final String SIMPLE_FRAGMENT_WORDS_SETTINGS_TAG = "SIMPLE_FRAGMENT_WORDS_SETTINGS_TAG";
     private final String SIMPLE_FRAGMENT_TIME_SETTINGS_TAG = "SIMPLE_FRAGMENT_TIME_SETTINGS_TAG";
     private final String SIMPLE_FRAGMENT_RESULT_TAG = "SIMPLE_FRAGMENT_RESULT_TAG";
+    private final String SIMPLE_FRAGMENT_DICTIONARY_TAG = "SIMPLE_FRAGMENT_DICTIONARY_TAG";
     private String current_fragment = SIMPLE_FRAGMENT_GROUP_SETTINGS_TAG;
 
     private int currentSettingStep = 0;
@@ -57,6 +61,8 @@ public class ActivityGame extends AppCompatActivity implements FragmentSettingsL
                     getSupportFragmentManager().findFragmentByTag(SIMPLE_FRAGMENT_TIME_SETTINGS_TAG);
             fragmentResult = (FragmentResult)
                     getSupportFragmentManager().findFragmentByTag(SIMPLE_FRAGMENT_RESULT_TAG);
+            fragmentDictionary = (FragmentDictionary)
+                    getSupportFragmentManager().findFragmentByTag(SIMPLE_FRAGMENT_DICTIONARY_TAG);
 
             current_fragment = savedInstanceState.getString("current_fragment");
 
@@ -71,12 +77,15 @@ public class ActivityGame extends AppCompatActivity implements FragmentSettingsL
             fragmentWordsSettings = new FragmentWordsSettings();
         if(fragmentTimeSettings == null)
             fragmentTimeSettings = new FragmentTimeSettings();
+        if(fragmentDictionary == null)
+            fragmentDictionary = new FragmentDictionary();
 
 
         fragmentGame.setFragmentGameListener(this);
         fragmentGroupsSettings.setOnClickAdapterListener(this);
         fragmentWordsSettings.setOnClickAdapterListener(this);
         fragmentTimeSettings.setOnClickAdapterListener(this);
+        fragmentDictionary.setFragmentDictionaryListener(this);
 
         transaction();
     }
@@ -126,6 +135,14 @@ public class ActivityGame extends AppCompatActivity implements FragmentSettingsL
     }
 
     @Override
+    public void openDictionaryFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment, fragmentDictionary, SIMPLE_FRAGMENT_DICTIONARY_TAG);
+        fragmentTransaction.commit();
+    }
+
+    @Override
     public void result() {
         fragmentResult = new FragmentResult();
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -135,4 +152,11 @@ public class ActivityGame extends AppCompatActivity implements FragmentSettingsL
     }
 
 
+    @Override
+    public void onBack() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment, fragmentWordsSettings, SIMPLE_FRAGMENT_WORDS_SETTINGS_TAG);
+        fragmentTransaction.commit();
+    }
 }

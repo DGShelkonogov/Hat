@@ -5,4 +5,5 @@ import com.example.hat.viewModels.SettingsModel;
 public interface FragmentSettingsListener {
     void start();
     void next();
+    void openDictionaryFragment();
 }

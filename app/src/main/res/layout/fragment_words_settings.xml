@@ -88,4 +88,13 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/btnDictionary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="Словари"
+        app:layout_constraintTop_toBottomOf="@+id/txtCountWords"
+        tools:layout_editor_absoluteX="129dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

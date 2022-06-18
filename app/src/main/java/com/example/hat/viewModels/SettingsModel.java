@@ -12,12 +12,21 @@ public class SettingsModel {
     private boolean pass;
     private boolean rowing;
     private ArrayList<Group> groups;
+    private ArrayList<String> buffer_word;
     private Stack<String> words;
 
 
     public SettingsModel() {
     }
 
+
+    public ArrayList<String> getBuffer_word() {
+        return buffer_word;
+    }
+
+    public void setBuffer_word(ArrayList<String> buffer_word) {
+        this.buffer_word = buffer_word;
+    }
 
     public Stack<String> getWords() {
         return words;
