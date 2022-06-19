@@ -53,9 +53,10 @@ public class FragmentDictionary extends Fragment implements DictionaryAdapterLis
 
         helper = new DBHelper(getContext());
 
-       /* List<String> dic_1 = Arrays.asList("сабака", "кошка", "бурундук");
-        List<String> dic_2 = Arrays.asList("шоколадка", "мороженое", "пельмени");
-        List<String> dic_3 = Arrays.asList("самокат", "самолет", "вертолет");
+       /* List<String> dic_1 = Arrays.asList("сабака", "кошка", "бурундук", "слово", "сабака", "кошка", "бурундук", "слово", "сабака", "кошка", "бурундук", "слово", "сабака", "кошка", "бурундук", "слово");
+        List<String> dic_2 = Arrays.asList("сабака", "кошка", "бурундук", "слово", "сабака", "кошка", "бурундук", "слово", "сабака", "кошка", "бурундук", "слово", "сабака", "кошка", "бурундук", "слово");
+        List<String> dic_3 = Arrays.asList("сабака", "кошка", "бурундук", "слово", "сабака", "кошка", "бурундук", "слово", "сабака", "кошка", "бурундук", "слово", "сабака", "кошка", "бурундук", "слово");
+
 
         helper.insertDictionary(new HatDictionary("Животные", dic_1));
         helper.insertDictionary(new HatDictionary("Еда", dic_2));
@@ -66,7 +67,7 @@ public class FragmentDictionary extends Fragment implements DictionaryAdapterLis
         checkBoxes = new boolean[dictionaries.size()];
 
         for(int i = 0; i < dictionaries.size(); i++){
-            checkBoxes[i] = false;
+            checkBoxes[i] = true;
         }
 
         adapter = new DictionaryAdapter(getContext(), dictionaries);

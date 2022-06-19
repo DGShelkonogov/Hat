@@ -53,8 +53,8 @@ public class FragmentGroupsSettings extends Fragment implements AdapterGroupList
         seekBarGroupsCount = v.findViewById(R.id.seekBarGroupsCount);
         txtGroupsCount = v.findViewById(R.id.txtGroupsCount);
 
-        groups.add(new Group("Комканда 1"));
-        groups.add(new Group("Комканда 2"));
+        groups.add(new Group("Комканда 1", 0));
+        groups.add(new Group("Комканда 2", 0));
 
         GroupAdapter adapter = new GroupAdapter(getContext(), groups);
         adapter.setAdapterGroupListener(this);
@@ -68,7 +68,7 @@ public class FragmentGroupsSettings extends Fragment implements AdapterGroupList
                 txtGroupsCount.setText("Количетво команд: " + progress);
 
                 if(progress > OldCountGroups){
-                    groups.add(new Group("Комканда " + progress));
+                    groups.add(new Group("Комканда " + progress, 0));
                 }else{
                     try{
                         groups.remove(progress);
@@ -105,6 +105,6 @@ public class FragmentGroupsSettings extends Fragment implements AdapterGroupList
     @Override
     public void textChange(int index, String change) {
         groups.remove(index);
-        groups.add(index, new Group(change));
+        groups.add(index, new Group(change, 0));
     }
 }

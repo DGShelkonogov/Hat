@@ -57,12 +57,9 @@ public class DictionaryAdapter extends RecyclerView.Adapter<DictionaryAdapter.Vi
         ViewHolder(View view){
             super(view);
             checkBox = itemView.findViewById(R.id.checkBox);
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    mListener.changeChecked(getAdapterPosition(), isChecked);
-                }
-            });
+            checkBox.setChecked(true);
+            checkBox.setOnCheckedChangeListener((buttonView, isChecked)
+                    -> mListener.changeChecked(getAdapterPosition(), isChecked));
         }
     }
 }

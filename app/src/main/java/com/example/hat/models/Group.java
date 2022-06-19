@@ -17,8 +17,9 @@ public class Group {
             score--;
     }
 
-    public Group(String name) {
+    public Group(String name, int score) {
         this.name = name;
+        this.score = score;
     }
 
     public String getName() {

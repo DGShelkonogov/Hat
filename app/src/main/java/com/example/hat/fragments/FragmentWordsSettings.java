@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.example.hat.R;
 import com.example.hat.SingleClass;
+import com.example.hat.database.DBHelper;
 import com.example.hat.interfaces.FragmentSettingsListener;
+import com.example.hat.models.HatDictionary;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -82,11 +84,24 @@ public class FragmentWordsSettings extends Fragment {
             mListener.next();
         });
 
+        DBHelper helper = new DBHelper(getContext());
+        ArrayList<HatDictionary> dictionaries = helper.getDictionary();
+
+        ArrayList<String> words = new ArrayList<>();
+        for(int i = 0; i < dictionaries.size(); i++){
+            for(String word : dictionaries.get(i).getWords()){
+                words.add(word);
+            }
+        }
+
+        SingleClass.settingsModel.setBuffer_word(words);
+
+
         return v;
     }
 
     void fillWords(){
-        for(int i = 0; i < 3; i++){
+        for(int i = 0; i < seekBarWordsCount.getProgress(); i++){
             int index = rnd(0,  SingleClass.settingsModel.getBuffer_word().size());
             String word = SingleClass.settingsModel.getBuffer_word().get(index);
             words.push(word);

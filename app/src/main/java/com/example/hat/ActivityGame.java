@@ -149,6 +149,12 @@ public class ActivityGame extends AppCompatActivity implements FragmentSettingsL
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment, fragmentResult, SIMPLE_FRAGMENT_RESULT_TAG);
         fragmentTransaction.commit();
+
+        currentSettingStep = 0;
+        SingleClass.settingsModel.setBuffer_word(null);
+        SingleClass.settingsModel.setTime(0);
+        SingleClass.settingsModel.setCountWords(0);
+        SingleClass.settingsModel.setCountGroups(0);
     }
 
 

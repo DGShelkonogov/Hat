@@ -100,6 +100,9 @@ public class FragmentGame extends Fragment {
                 nextWord();
             }else{
                 mListener.result();
+                indexCurrentGroup = -1;
+                currentWord = "";
+                startGame = false;
             }
         });
 
